@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/ProjektGabrielGaleza"/>
+<Context antiJARLocking="true" path="/ProjektGabrielGaleza">
+   
+    <ResourceLink name="jdbc/SecurityDB"
+                  global="jdbc/SecurityDB"
+                  type="javax.sql.DataSource" />
+
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+           dataSourceName="jdbc/SecurityDB"
+           userTable="users" 
+           userNameCol="username" 
+           userCredCol="password"
+           userRoleTable="user_roles" 
+           roleNameCol="role_name"/>
+</Context>
