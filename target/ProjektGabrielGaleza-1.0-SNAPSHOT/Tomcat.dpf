@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/ProjektGabrielGaleza">
+  <!-- Wyłączenie zapisu sesji (to musi zostać!) -->
+  <Manager pathname=""/>
+  <!-- Link do Bazy Logowania -->
   <ResourceLink global="jdbc/SecurityDB" name="jdbc/SecurityDB" type="javax.sql.DataSource"/>
+  <!-- Link do Bazy Projektów -->
+  <ResourceLink global="jdbc/BusinessDB" name="jdbc/BusinessDB" type="javax.sql.DataSource"/>
+  <!-- Realm korzysta z linku lokalnego "jdbc/SecurityDB" -->
   <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/SecurityDB" roleNameCol="role_name" userCredCol="password" userNameCol="username" userRoleTable="user_roles" userTable="users"/>
 </Context>

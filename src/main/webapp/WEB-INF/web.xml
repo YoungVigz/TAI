@@ -4,12 +4,11 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!-- Strona startowa -->
+    <!-- Folder views jako startowy -->
     <welcome-file-list>
         <welcome-file>views/index.xhtml</welcome-file>
     </welcome-file-list>
 
-    <!-- Mapowanie JSF -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -20,23 +19,21 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-    <!-- OGRANICZENIA DOSTĘPU (Security Constraints) -->
+    <!-- OCHRONA FOLDERU /views/ -->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Protected Area</web-resource-name>
-            <url-pattern>/views/*</url-pattern> <!-- Chronimy wszystko w folderze views -->
+            <url-pattern>/views/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>ADMIN</role-name>
             <role-name>USER</role-name>
         </auth-constraint>
-        
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
 
-    <!-- Konfiguracja metody logowania -->
     <login-config>
         <auth-method>FORM</auth-method>
         <form-login-config>
@@ -45,12 +42,6 @@
         </form-login-config>
     </login-config>
 
-    <!-- Definicja ról używanych w aplikacji -->
-    <security-role>
-        <role-name>ADMIN</role-name>
-    </security-role>
-    <security-role>
-        <role-name>USER</role-name>
-    </security-role>
-   
+    <security-role><role-name>ADMIN</role-name></security-role>
+    <security-role><role-name>USER</role-name></security-role>
 </web-app>

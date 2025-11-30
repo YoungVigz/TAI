@@ -1,2 +1,7 @@
-com\mycompany\projektgabrielgaleza\bean\RegisterBean.class
-com\mycompany\projektgabrielgaleza\bean\UserSession.class
+bean\RegisterBean.class
+bean\AppBean.class
+model\ProjectTO.class
+bean\UserSession.class
+bean\ProjectBean.class
+config\SecurityFilter.class
+dao\ProjectDAO.class

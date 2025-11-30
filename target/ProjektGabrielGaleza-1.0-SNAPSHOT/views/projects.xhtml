@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>#{msgs['header.title']}</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .form-box { background: #f9f9f9; padding: 20px; border: 1px solid #ddd; margin-bottom: 20px; }
+    </style>
+</h:head>
+<h:body>
+    
+    <h1>#{msgs['header.title']} <small>(#{userSession.appBean.appVersion})</small></h1>
+    <p>#{msgs['welcome']}, <b>#{userSession.username}</b></p>
+    
+    <h:form>
+        <h:commandButton value="Wyloguj" action="#{userSession.logout}" />
+    </h:form>
+    
+    <hr/>
+
+    
+    <div class="form-box">
+        <h3>Dodaj Projekt (AJAX)</h3>
+        <h:form id="addForm">
+            Nazwa: <h:inputText value="#{projectBean.currentProject.name}" required="true" /><br/><br/>
+            Opis: <h:inputTextarea value="#{projectBean.currentProject.description}" /><br/><br/>
+            Status: 
+            <h:selectOneMenu value="#{projectBean.currentProject.status}">
+                <f:selectItems value="#{appBean.statuses}" />
+            </h:selectOneMenu>
+            <br/><br/>
+            
+            
+            <h:commandButton value="#{msgs['btn.add']}" action="#{projectBean.saveAjax}">
+                <f:ajax execute="@form" render="@form :tableForm:projectTable" />
+            </h:commandButton>
+        </h:form>
+    </div>
+
+    
+    <h:form id="tableForm">
+        <h:dataTable id="projectTable" value="#{projectBean.projects}" var="p">
+            
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{p.id}
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">#{msgs['table.name']}</f:facet>
+                #{p.name}
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">#{msgs['table.desc']}</f:facet>
+                #{p.description}
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">#{msgs['table.status']}</f:facet>
+                #{p.status}
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">Akcja</f:facet>
+                
+                <h:commandButton value="#{msgs['btn.delete']}" action="#{projectBean.delete(p.id)}">
+                    <f:ajax render="@form" />
+                </h:commandButton>
+            </h:column>
+            
+        </h:dataTable>
+    </h:form>
+
+</h:body>
+</html>
