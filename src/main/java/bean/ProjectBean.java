@@ -32,6 +32,14 @@ public class ProjectBean implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    public void edit(ProjectTO p) {
+        this.currentProject = new ProjectTO(p.getId(), p.getName(), p.getDescription(), p.getStatus());
+    }
+
+    public void cancelEdit() {
+        this.currentProject = new ProjectTO();
+    }
 
     public void saveAjax() {
         try {
@@ -46,20 +54,12 @@ public class ProjectBean implements Serializable {
     public void delete(Long id) {
         try {
             projectDAO.delete(id);
+            if (currentProject.getId() != null && currentProject.getId().equals(id)) {
+                currentProject = new ProjectTO();
+            }
             refreshList();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public String saveStandard() {
-        try {
-            projectDAO.save(currentProject);
-            currentProject = new ProjectTO();
-            return "projects?faces-redirect=true"; // Nawigacja
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 

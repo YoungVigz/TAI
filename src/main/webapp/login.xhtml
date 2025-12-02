@@ -1,42 +1,60 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
+    <f:view locale="#{localeBean.locale}">
     <head>
-        <title>Zaloguj się</title>
+        <title>#{msgs['login.title']}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
-            body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
-            .login-box { border: 1px solid #ccc; padding: 20px; border-radius: 5px; box-shadow: 2px 2px 10px #eee; }
-            input { display: block; margin-bottom: 10px; width: 100%; padding: 8px; }
-            .error { color: red; font-size: 0.9em; }
+            body { 
+                font-family: 'Segoe UI', sans-serif; 
+                background: #f3f4f6; 
+                display: flex; justify-content: center; align-items: center; 
+                height: 100vh; margin: 0; 
+            }
+            .login-box { 
+                background: white; padding: 40px; border-radius: 8px; 
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; 
+            }
+            h2 { text-align: center; color: #1e293b; margin-bottom: 30px; }
+            input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;}
+            input[type="submit"] { background: #2563eb; color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+            input[type="submit"]:hover { background: #1d4ed8; }
+            .error { color: #dc2626; text-align: center; background: #fee2e2; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+            .link-cont { text-align: center; margin-top: 20px; font-size: 0.9em; }
+            a { color: #2563eb; text-decoration: none; }
+            a:hover { text-decoration: underline; }
         </style>
     </head>
     <body>
         <div class="login-box">
-            <h2>Panel Logowania</h2>
+            <h2>#{msgs['login.header']}</h2>
 
             <script>
                 const urlParams = new URLSearchParams(window.location.search);
+                const errorMsg = "#{msgs['login.error']}";
                 if(urlParams.get('error')) {
-                    document.write('<p class="error">Błędny login lub hasło!</p>');
+                    document.write('<div class="error">' + errorMsg + '</div>');
                 }
             </script>
 
-            <!-- WYMAGANE PRZEZ TOMCATA -->
             <form method="post" action="j_security_check">
-                <label>Użytkownik:</label>
-                <input type="text" name="j_username" placeholder="np. admin" required="true"/>
+                <label style="font-weight: 500; display: block; margin-bottom: 5px;">#{msgs['login.user']}</label>
+                <input type="text" name="j_username" placeholder="#{msgs['login.placeholder.user']}" required="true"/>
 
-                <label>Hasło:</label>
-                <input type="password" name="j_password" placeholder="np. admin123" required="true"/>
+                <label style="font-weight: 500; display: block; margin-bottom: 5px;">#{msgs['login.pass']}</label>
+                <input type="password" name="j_password" placeholder="#{msgs['login.placeholder.pass']}" required="true"/>
 
-                <input type="submit" value="Zaloguj się" style="background: #007bff; color: white; border: none; cursor: pointer;"/>
+                <input type="submit" value="#{msgs['btn.login']}" />
             </form>
             
-            <p style="margin-top: 15px;">
-                <a href="register.xhtml">Utwórz konto</a>
-            </p>
-
+            <div class="link-cont">
+                #{msgs['login.noaccount']} <a href="register.xhtml">#{msgs['btn.register']}</a>
+            </div>
         </div>
     </body>
+    </f:view>
 </html>

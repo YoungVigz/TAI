@@ -23,7 +23,6 @@ public class ProjectDAO implements Serializable {
     private Connection getConnection() throws SQLException {
         try {
             Context ctx = new InitialContext();
-            // Szukamy w środowisku aplikacji (java:comp/env/) nazwy zdefiniowanej w context.xml
             DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BusinessDB");
             return ds.getConnection();
         } catch (NamingException e) {
@@ -33,7 +32,7 @@ public class ProjectDAO implements Serializable {
 
     public List<ProjectTO> findAll() throws SQLException {
         List<ProjectTO> list = new ArrayList<>();
-        try (Connection conn = getConnection(); // Użycie metody zamiast pola
+        try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM projects")) {
             while (rs.next()) {
@@ -49,7 +48,7 @@ public class ProjectDAO implements Serializable {
     }
 
     public void save(ProjectTO p) throws SQLException {
-        try (Connection conn = getConnection()) { // Użycie metody zamiast pola
+        try (Connection conn = getConnection()) {
             if (p.getId() == null) {
                 String sql = "INSERT INTO projects (name, description, status) VALUES (?, ?, ?)";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {

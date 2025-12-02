@@ -34,6 +34,10 @@ public class UserSession implements Serializable {
     public String getUsername() {
         return FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
     }
+    
+    public boolean isAdmin() {
+        return FacesContext.getCurrentInstance().getExternalContext().isUserInRole("ADMIN");
+    }
 
     public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();

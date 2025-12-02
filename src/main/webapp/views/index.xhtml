@@ -1,25 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Gabriel Gałęza - IO1</title>
-    </h:head>
-    <h:body>
-        <h1>Gabriel Gałęza - IO1</h1>
-        <h1>Sukces! Jesteś zalogowany.</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                template="./../template/master.xhtml">
     
-        <p>Zalogowany jako: <b>#{request.remoteUser}</b></p>
-        
-        <h3>Menu Aplikacji</h3>
-        <h:form>
-            <h:commandButton value="Zarządzanie Projektami" action="goToProjects" 
-                             style="padding: 10px; font-size: 16px;" />
-        </h:form>
-
-        <h:form>
-            <h:commandButton value="Wyloguj się" action="#{userSession.logout()}" 
-                             style="background: #dc3545; color: white; border: none; padding: 10px; cursor: pointer;"/>
-        </h:form>
-    </h:body>
-</html>
+    <ui:define name="content">
+        <div class="card">
+            <h2>#{msgs['dash.title']}</h2>
+            <p class="text-muted">#{msgs['dash.version']}: <small>#{userSession.appBean.appVersion}</small></p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;"/>
+            
+            <p style="font-size: 1.1em;">
+                #{msgs['header.welcome']}, <b style="color: var(--primary-color);">#{userSession.username}</b>!
+            </p>
+            <p>#{msgs['dash.info']}</p>
+        </div>
+    </ui:define>
+    
+</ui:composition>

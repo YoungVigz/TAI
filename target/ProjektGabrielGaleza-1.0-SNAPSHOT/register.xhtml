@@ -3,31 +3,69 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view locale="#{localeBean.locale}">
 <h:head>
-    <title>Rejestracja</title>
+    <title>#{msgs['reg.title']}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
-        .box { border: 1px solid #ccc; padding: 20px; width: 300px; border-radius: 5px; }
-        input { width: 95%; margin-bottom: 10px; padding: 5px; }
-        .btn { width: 100%; background: #28a745; color: white; padding: 10px; border: none; cursor: pointer; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f3f4f6; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; margin: 0; 
+        }
+        .register-box { 
+            background: white; width: 100%; max-width: 400px; 
+            padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        h2 { text-align: center; color: #1e293b; margin-top: 0; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #334155; font-size: 0.95rem; }
+        input[type="text"], input[type="password"] { 
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0; 
+            border-radius: 6px; box-sizing: border-box; font-size: 14px; color: #333;
+        }
+        .btn { 
+            width: 100%; background-color: #2563eb; color: white; padding: 12px; 
+            border: none; border-radius: 6px; font-size: 16px; font-weight: 600; 
+            cursor: pointer; margin-top: 10px;
+        }
+        .btn:hover { background-color: #1d4ed8; }
+        .bottom-link { text-align: center; margin-top: 25px; font-size: 0.9rem; color: #64748b; }
+        a { color: #2563eb; text-decoration: none; font-weight: 500; }
+        a:hover { text-decoration: underline; }
+        ul { list-style: none; padding: 0; margin: 0 0 20px 0; }
+        li { background-color: #fee2e2; color: #dc2626; padding: 10px; border-radius: 6px; border: 1px solid #fecaca; font-size: 0.9rem; text-align: center; margin-bottom: 5px; }
     </style>
 </h:head>
 <h:body>
-    <div class="box">
-        <h2>Załóż konto</h2>
+    <div class="register-box">
+        <h2>#{msgs['reg.header']}</h2>
+        
         <h:form>
-            <h:messages style="color:red" />
+            <h:messages globalOnly="false" styleClass="errors" />
             
-            <h:outputLabel value="Login:" />
-            <h:inputText value="#{registerBean.username}" required="true" label="Login"/>
+            <div class="form-group">
+                <h:outputLabel value="#{msgs['user.login']}" for="username"/>
+                <h:inputText id="username" value="#{registerBean.username}" required="true" 
+                             requiredMessage="#{msgs['reg.req.login']}"
+                             validatorMessage="Login is too short" />
+            </div>
             
-            <h:outputLabel value="Hasło:" />
-            <h:inputSecret value="#{registerBean.password}" required="true" label="Hasło"/>
+            <div class="form-group">
+                <h:outputLabel value="#{msgs['user.password']}" for="password"/>
+                <h:inputSecret id="password" value="#{registerBean.password}" required="true" 
+                               requiredMessage="#{msgs['reg.req.pass']}"/>
+            </div>
             
-            <h:commandButton value="Zarejestruj" action="#{registerBean.register}" styleClass="btn"/>
+            <h:commandButton value="#{msgs['btn.register']}" action="#{registerBean.register}" styleClass="btn"/>
         </h:form>
-        <br/>
-        <a href="login.xhtml">Powrót do logowania</a>
+        
+        <div class="bottom-link">
+            #{msgs['reg.haveaccount']} <br/>
+            <a href="login.xhtml">#{msgs['reg.back']}</a>
+        </div>
     </div>
 </h:body>
+</f:view>
 </html>

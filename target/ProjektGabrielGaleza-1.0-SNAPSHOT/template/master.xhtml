@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:view locale="#{localeBean.locale}">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <h:outputStylesheet name="css/mystyle.css"/>
+        <title>#{msgs['app.name']}</title>
+        
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            })();
+
+            function toggleTheme() {
+                const html = document.documentElement;
+                const current = html.getAttribute('data-theme');
+                const newTheme = current === 'dark' ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                updateThemeLabel(newTheme);
+            }
+
+            function updateThemeLabel(theme) {
+                const btn = document.getElementById('themeBtnLabel');
+                // Pobieramy teksty z ukrytych zmiennych (zdefiniowanych niżej w body)
+                const txtLight = document.getElementById('txtLight').value;
+                const txtDark = document.getElementById('txtDark').value;
+                
+                if(btn) btn.innerText = (theme === 'dark' ? txtLight : txtDark);
+            }
+        </script>
+    </h:head>
+
+    <h:body>
+        <!-- Ukryte pola do przekazania tłumaczeń do JS -->
+        <input type="hidden" id="txtLight" value="#{msgs['menu.theme.light']}" />
+        <input type="hidden" id="txtDark" value="#{msgs['menu.theme.dark']}" />
+
+        <header class="app-header">
+            <div class="logo">
+                <h1>#{msgs['app.name']}</h1>
+            </div>
+            <div class="user-info">
+                #{msgs['header.welcome']}, <b>#{request.remoteUser}</b>
+                
+                <!-- Zmiana Języka -->
+                <h:form style="display:inline; margin-left: 15px;">
+                    <h:commandLink action="#{localeBean.setLanguage('pl')}" style="text-decoration: none; margin-right: 5px; font-weight: #{localeBean.language == 'pl' ? 'bold' : 'normal'}">PL</h:commandLink>
+                    |
+                    <h:commandLink action="#{localeBean.setLanguage('en')}" style="text-decoration: none; margin-left: 5px; font-weight: #{localeBean.language == 'en' ? 'bold' : 'normal'}">EN</h:commandLink>
+                </h:form>
+            </div>
+        </header>
+        
+        <div class="main-wrapper">
+            
+            <aside class="app-sidebar">
+                <ui:insert name="left">
+                    <h3>#{msgs['menu.nav']}</h3>
+                    
+                    <h:form>
+                        <h:commandButton value="#{msgs['menu.dashboard']}" action="/views/index.xhtml?faces-redirect=true" 
+                                         styleClass="nav-btn" />
+                        
+                        <h:commandButton value="#{msgs['menu.projects']}" action="/views/projects.xhtml?faces-redirect=true" 
+                                         styleClass="nav-btn" />
+
+                        <h:commandButton value="#{msgs['menu.users']}" action="/views/users.xhtml?faces-redirect=true" 
+                                         styleClass="nav-btn" 
+                                         rendered="#{userSession.admin}"
+                                         style="border-color: #f59e0b; color: #f59e0b;" /> 
+                    </h:form>
+
+                    <button type="button" class="nav-btn theme-toggle" onclick="toggleTheme()">
+                        <span id="themeBtnLabel">Change Theme</span>
+                    </button>
+
+                    <h:form style="margin-top: auto;">
+                        <h:commandButton value="#{msgs['menu.logout']}" action="#{userSession.logout()}" 
+                                         styleClass="nav-btn logout"/>
+                    </h:form>
+                </ui:insert>
+            </aside>
+
+            <main class="app-content">
+                <ui:insert name="content">Content</ui:insert>
+            </main>
+        </div>
+        
+        <footer class="app-footer">
+            <ui:include src="/templateElements/footer.xhtml" />
+        </footer>
+        
+        <script>
+            // Inicjalizacja etykiety przycisku po załadowaniu
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            updateThemeLabel(currentTheme);
+        </script>
+
+    </h:body>
+    </f:view>
+</html>

@@ -1,7 +1,11 @@
 bean\RegisterBean.class
 bean\AppBean.class
 model\ProjectTO.class
+model\UserTO.class
+dao\UserDAO.class
 bean\UserSession.class
+bean\LocaleBean.class
 bean\ProjectBean.class
+bean\UserBean.class
 config\SecurityFilter.class
 dao\ProjectDAO.class
